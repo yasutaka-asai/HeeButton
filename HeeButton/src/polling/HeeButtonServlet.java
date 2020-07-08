@@ -15,13 +15,11 @@ public class HeeButtonServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		System.out.println("get");
 		resp.setContentType("application/json");
 		resp.getWriter().write("{\"count\":\"" + count + "\"}");
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("post");
 		count++;
 	}
 
