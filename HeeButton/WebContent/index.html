@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+	<h1>POLLING</h1>
+	<dl>
+		<dt>CountUp:</dt>
+		<dd></dd>
+	</dl>
+
+	<script type="text/javascript">
+
+		function playSound() {
+			var audio = new Audio('Hee.mp3');
+			audio.play();
+		};
+
+		$(function() {
+			var POLLLING_INVERVAL_TIME_IN_MILLIS = 100;//10s
+			var prevCount = 0;
+
+			(function polling() {
+				getCountUp();
+				window.setTimeout(polling, POLLLING_INVERVAL_TIME_IN_MILLIS);
+			}());
+
+			function getCountUp() {
+				$.ajax({
+					type : "GET",
+					url : "HeeButton",
+					content : "application/json",
+					dataType : "json",
+				}).done(function(data) {
+					$("dd").text(data.count);
+					if(Number(data.count) > prevCount ){
+						playSound();
+						prevCount = Number(data.count);
+					}
+				}).fail(function(jqXHR, textStatus) {
+					$("dd").text("error occured");
+				});
+			}
+		});
+
+		function hee(){
+			$.ajax({
+			type : "POST",
+			url : "HeeButton",
+			content : "application/json",
+			dataType : "json",
+			});
+		}
+	</script>
+
+	<button onclick="playSound()">開いたら最初に1回押す</button><br>
+
+	<button onclick="hee()">へぇボタン</button>
+
+</body>
+</html>
