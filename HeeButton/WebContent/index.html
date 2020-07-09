@@ -15,10 +15,22 @@
 
 	<script type="text/javascript">
 
+		volumeFlg = true;
+
 		function playSound() {
-			var audio = new Audio('Hee.mp3');
-			audio.play();
+			if(volumeFlg){
+				var audio = new Audio('Hee.mp3');
+				audio.play();
+			}
 		};
+
+		function volume() {
+			if(volumeFlg){
+				volumeFlg = false;
+			}else{
+				volumeFlg = true;
+			}
+		}
 
 		$(function() {
 			var POLLLING_INVERVAL_TIME_IN_MILLIS = 500;//10s
@@ -36,7 +48,7 @@
 					content : "application/json",
 					dataType : "json",
 				}).done(function(data) {
-					if(Number(data.count) > prevCount ){
+					if (Number(data.count) > prevCount) {
 						playSound();
 						prevCount = Number(data.count);
 					}
@@ -46,17 +58,18 @@
 			}
 		});
 
-		function hee(){
+		function hee() {
 			$.ajax({
-			type : "POST",
-			url : "HeeButton",
-			content : "application/json",
-			dataType : "json",
+				type : "POST",
+				url : "HeeButton",
+				content : "application/json",
+				dataType : "json",
 			});
 		}
 	</script>
 
-	<button onclick="playSound()">開いたら最初に1回押す</button><br>
+	<button onclick="playSound()">音を鳴らすだけ</button>
+	<button onclick="volume()">ミュート切り替え</button><br>
 
 	<a onclick="hee()"><img src="button.jpg"></a>
 
