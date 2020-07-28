@@ -9,27 +9,42 @@
 </head>
 <body>
 	<h1>みんなで押せるへぇボタン</h1>
-	<dl>
-		<dd></dd>
-	</dl>
 
 	<script type="text/javascript">
 
+		var audio = new Audio('Hee.mp3');
 		volumeFlg = true;
 
 		function playSound() {
 			if(volumeFlg){
-				var audio = new Audio('Hee.mp3');
 				audio.play();
 			}
 		};
 
-		function volume() {
+		function mute() {
 			if(volumeFlg){
 				volumeFlg = false;
 			}else{
 				volumeFlg = true;
 			}
+		}
+
+		function volume(flg) {
+			if(flg > 0){
+				if(0.9 < audio.volume) {
+					audio.volume = 1;
+				}else{
+					audio.volume += 0.1;
+				}
+			}else{
+				if(0.1 > audio.volume) {
+					audio.volume = 0;
+				}else{
+					audio.volume -= 0.1;
+				}
+			}
+			var elemv = document.getElementById("volValue");
+			elemv.innerHTML = parseInt(audio.volume * 10);
 		}
 
 		$(function() {
@@ -69,7 +84,10 @@
 	</script>
 
 	<button onclick="playSound()">音を鳴らすだけ</button>
-	<button onclick="volume()">ミュート切り替え</button><br>
+	<button onclick="mute()">ミュート切り替え</button><br>
+	<button onclick="volume(1)">音量を上げる</button>
+	<span id="volValue">10</span>
+	<button onclick="volume(-1)">音量を下げる</button><br>
 
 	<a onclick="hee()"><img src="button.jpg"></a>
 
